@@ -2,6 +2,8 @@
 
 namespace Phalcon\Models;
 
+use Phalcon\Validation;
+
 class Collaborateur extends \Phalcon\Mvc\Model
 {
 
@@ -155,6 +157,39 @@ class Collaborateur extends \Phalcon\Mvc\Model
     public function getPrimeEmbauche()
     {
         return $this->prime_embauche;
+    }
+
+    const _NIVEAU_COMPETENCE_1_STAGIAIRE_ = 1;
+    const _NIVEAU_COMPETENCE_2_JUNIOR_ = 2;
+    const _NIVEAU_COMPETENCE_3_SENIOR_ = 3;
+
+    public function getNiveauCompetenceLibelle() {
+        switch ($this->getNiveauCompetence()) {
+            case self::_NIVEAU_COMPETENCE_1_STAGIAIRE_ : return 'STAGIAIRE';
+            case self::_NIVEAU_COMPETENCE_2_JUNIOR_ : return 'JUNIOR';
+            case self::_NIVEAU_COMPETENCE_3_SENIOR_ : return 'SENIOR';
+            default: return 'Niveau de compétence inconnu';
+
+        }
+    }
+
+// Mecanisme de validation
+    public function validation() {
+        $validator = new Validation();
+        $validator->add('niveau_competence',
+            new InclusionIn(
+                [
+                    'template' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+                    'message' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+                    'domain' => [
+                        self::_NIVEAU_COMPETENCE_1_STAGIAIRE_,
+                        self::_NIVEAU_COMPETENCE_2_JUNIOR_,
+                        self::_NIVEAU_COMPETENCE_3_SENIOR_
+                    ]
+                ]
+            )
+        );
+        return $this->validate($validator);
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Phalcon\Models;
 
+use Phalcon\Validation;
+
 class Composant extends \Phalcon\Mvc\Model
 {
 
@@ -184,8 +186,43 @@ class Composant extends \Phalcon\Mvc\Model
      */
     public function getType()
     {
-        return $this->type;
+        return intval($this->type);
     }
+
+
+    const _TYPE_1_FRONTEND_ = 1;
+    const _TYPE_2_BACKEND_ = 2;
+    const _TYPE_3_DATABASE_ = 3;
+
+    public function getTypeLibelle() {
+        switch ($this->getType()) {
+            case self::_TYPE_1_FRONTEND_ : return 'FRONTEND';
+            case self::_TYPE_2_BACKEND_ : return 'BACKEND';
+            case self::_TYPE_3_DATABASE_ : return 'DATABASE';
+            default: return 'Type inconnu';
+
+        }
+}
+
+// Mecanisme de validation
+    public function validation() {
+        $validator = new Validation();
+        $validator->add('type',
+            new InclusionIn(
+                [
+                    'template' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+                    'message' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+                    'domain' => [
+                        self::_TYPE_1_FRONTEND_,
+                        self::_TYPE_2_BACKEND_,
+                        self::_TYPE_3_DATABASE_,
+                    ]
+                ]
+            )
+        );
+        return $this->validate($validator);
+    }
+
 
     /**
      * Initialize method for model.
@@ -220,3 +257,4 @@ class Composant extends \Phalcon\Mvc\Model
     }
 
 }
+

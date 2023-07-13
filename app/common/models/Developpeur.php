@@ -2,6 +2,8 @@
 
 namespace Phalcon\Models;
 
+use Phalcon\Validation;
+
 class Developpeur extends \Phalcon\Mvc\Model
 {
 
@@ -216,6 +218,47 @@ class Developpeur extends \Phalcon\Mvc\Model
     {
         return $this->id_collaborateur;
     }
+
+    const _COMPETENCE_1_FRONTEND_ = 1;
+    const _COMPETENCE_2_BACKEND_ = 2;
+    const _COMPETENCE_3_DATABASE_ = 3;
+
+    /**
+     * @return string
+     */
+    public function getCompetenceLibelle() {
+        switch ($this->getCompetence()) {
+            case self::_COMPETENCE_1_FRONTEND_ : return 'FRONTEND';
+            case self::_COMPETENCE_2_BACKEND_ : return 'BACKEND';
+            case self::_COMPETENCE_3_DATABASE_ : return 'DATABASE';
+            default: return 'Compétence(s) inconnue(s)';
+
+        }
+    }
+
+    /**
+     * @return bool
+     * Mecanisme de validation
+     */
+    public function validation() {
+        $validator = new Validation();
+        $validator->add('competence',
+            new InclusionIn(
+                [
+                    'template' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+                    'message' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+                    'domain' => [
+                        self::_COMPETENCE_1_FRONTEND_,
+                        self::_COMPETENCE_2_BACKEND_,
+                        self::_COMPETENCE_3_DATABASE_,
+                    ]
+                ]
+            )
+        );
+        return $this->validate($validator);
+    }
+
+
 
     /**
      * Initialize method for model.

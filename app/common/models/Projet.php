@@ -2,6 +2,8 @@
 
 namespace Phalcon\Models;
 
+use Phalcon\Validation;
+
 class Projet extends \Phalcon\Mvc\Model
 {
 
@@ -306,6 +308,82 @@ class Projet extends \Phalcon\Mvc\Model
     {
         return $this->statut;
     }
+
+    const _STATUT_0_INITIALISATION_ = 0;
+    const _STATUT_1_PLANIFICATION_ = 1;
+    const _STATUT_2_REALISATION_ = 2;
+    const _STATUT_3_SUIVI_ = 3;
+    const _STATUT_4_FINALISATION_ = 4;
+
+    public function getStatutLibelle() {
+        switch ($this->getStatut()) {
+            case self::_STATUT_0_INITIALISATION_ : return 'INITIALISATION';
+            case self::_STATUT_1_PLANIFICATION_ : return 'PLANIFICATION';
+            case self::_STATUT_2_REALISATION_ : return 'REALISATION';
+            case self::_STATUT_3_SUIVI_ : return 'SUIVI';
+            case self::_STATUT_4_FINALISATION_ : return 'FINALISATION';
+            default: return 'Statut inconnu';
+
+        }
+    }
+
+// Mecanisme de validation
+    public function validationStatut() {
+        $validator = new Validation();
+        $validator->add('statut',
+            new InclusionIn(
+                [
+                    'template' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+                    'message' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+                    'domain' => [
+                        self::_STATUT_0_INITIALISATION_,
+                        self::_STATUT_1_PLANIFICATION_,
+                        self::_STATUT_2_REALISATION_,
+                        self::_STATUT_3_SUIVI_,
+                        self::_STATUT_4_FINALISATION_
+                    ]
+                ]
+            )
+        );
+        return $this->validate($validator);
+    }
+//    const _TYPE_1_PLANIFICATION_ = 1;
+//    const _TYPE_2_REALISATION_ = 2;
+//    const _TYPE_3_SUIVI_ = 3;
+//
+//    public function getTypeLibelle() {
+//        switch ($this->getCompetence()) {
+//            case self::_TYPE__INITIALISATION_ : return 'INITIALISATION';
+//            case self::_TYPE_1_PLANIFICATION_ : return 'PLANIFICATION';
+//            case self::_TYPE_2_REALISATION_ : return 'REALISATION';
+//            case self::_TYPE_3_SUIVI_ : return 'SUIVI';
+//            case self::_TYPE_4_FINALISATION_ : return 'FINALISATION';
+//            default: return 'Statut inconnu';
+//
+//        }
+//    }
+
+// Mecanisme de validation
+//    public function validationType() {
+//        $validator = new Validation();
+//        $validator->add('type',
+//            new InclusionIn(
+//                [
+//                    'template' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+//                    'message' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
+//                    'domain' => [
+//                        self::_TYPE_0_INITIALISATION_,
+//                        self::_TYPE_1_PLANIFICATION_,
+//                        self::_TYPE_2_REALISATION_,
+//                        self::_TYPE_3_SUIVI_,
+//                        self::_TYPE_4_FINALISATION_
+//                    ]
+//                ]
+//            )
+//        );
+//        return $this->validate($validator);
+//    }
+
 
     /**
      * Initialize method for model.
