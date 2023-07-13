@@ -1,5 +1,7 @@
 <?php
 
+namespace Phalcon\Models;
+
 class Projet extends \Phalcon\Mvc\Model
 {
 

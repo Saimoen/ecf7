@@ -1,5 +1,7 @@
 <?php
 
+namespace Phalcon\Models;
+
 class Application extends \Phalcon\Mvc\Model
 {
 
@@ -127,12 +129,13 @@ class Application extends \Phalcon\Mvc\Model
 
     /**
      * Initialize method for model.
+     * Vous pouvez récupérer les enregistrements
      */
     public function initialize()
     {
         $this->setSchema("webappsaler");
         $this->setSource("application");
-        $this->hasMany('id', 'Module', 'id_application', ['alias' => 'Module']);
+        $this->hasMany('id', 'Phalcon\Models\Module', 'id_application', ['alias' => 'Module']);
     }
 
     /**

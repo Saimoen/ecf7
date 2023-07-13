@@ -1,5 +1,7 @@
 <?php
 
+namespace Phalcon\Models;
+
 class Client extends \Phalcon\Mvc\Model
 {
 

@@ -1,0 +1,7 @@
+<div class="page-header">
+    <h1>Liste des clients</h1>
+</div>
+
+<?php foreach ($this->view->client as $client) { ?>
+    <p>Nom du client : <?php echo $client->name; ?></p>
+<?php } ?>

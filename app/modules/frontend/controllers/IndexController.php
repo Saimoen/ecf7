@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Modules\Frontend\Controllers;
 
+use Phalcon\Models\Projet;
+
 class IndexController extends ControllerBase
 {
 
-    public function indexAction($param = null)
+    public function indexAction()
     {
-        $this->view->setVar('param', $param);
+        $projets = Projet::find();
+        $this->view->setVar( 'projets', $projets);
     }
 
 }
