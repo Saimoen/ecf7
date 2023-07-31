@@ -15,7 +15,7 @@ class ProjetController extends Controller
     {
         $projets = [];
         foreach (Projet::find() as $projet) {
-            $projets = [
+            $projets[] = [
                 'id_developpeur' => $projet->getIdDeveloppeur(),
                 'id_module' => $projet->getIdModule(),
                 'id_application' => $projet->getIdModule(),

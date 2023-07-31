@@ -15,7 +15,7 @@ class EquipeController extends Controller
     {
         $equipes = [];
         foreach (Equipe::find() as $equipe) {
-            $equipes = [
+            $equipes[] = [
                 'id' => $equipe->getId(),
                 'cdp' => $equipe->Collaborateur->Equipe->nom,
                 'libelle' => $equipe->getLibelle()

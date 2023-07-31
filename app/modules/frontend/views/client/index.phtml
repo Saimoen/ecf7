@@ -1,0 +1,23 @@
+<div class="container">
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Raison Sociale</th>
+        <th scope="col">RIDET</th>
+        <th scope="col">SS2I</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->view->client as $client) { ?>
+    <tr>
+        <td><?php echo $client['id']; ?></td>
+        <td><?php echo $client['raison_sociale']; ?></td>
+        <td><?php echo $client['ridet']; ?></td>
+        <td><?php echo $client['ss2i']; ?></td>
+    </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
+</div>

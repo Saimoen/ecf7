@@ -15,7 +15,7 @@ class CollaborateurController extends Controller
     {
         $collaborateurs = [];
         foreach (Collaborateur::find() as $collaborateur) {
-            $collaborateurs = [
+            $collaborateurs[] = [
                 'id' => $collaborateur->getId(),
                 'nom' => $collaborateur->getNom(),
                 'prenom' => $collaborateur->getPrenom(),

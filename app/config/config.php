@@ -10,9 +10,9 @@ $localConfiguration = [
     'database' => [
         'adapter' => 'Mysql',
         'host' => 'localhost',
-        'username' => 'Gregory',
-        'password' => 'Gregsaimoen12@',
-        'dbname' => '@localhost',
+        'username' => 'root',
+        'password' => 'root',
+        'dbname' => 'webappsaler',
         'charset' => 'utf8'
     ]
 ];
