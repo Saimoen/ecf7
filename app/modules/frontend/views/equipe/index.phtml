@@ -1,0 +1,21 @@
+<div class="container">
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Chef de projet</th>
+        <th scope="col">Libelle</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->view->equipe as $equipe) { ?>
+    <tr>
+        <td><?php echo $equipe['id']; ?></td>
+        <td><?php echo $equipe['cdp']; ?></td>
+        <td><?php echo $equipe['libelle']; ?></td>
+    </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
+</div>

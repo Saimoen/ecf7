@@ -1,0 +1,27 @@
+<div class="container">
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Compétences</th>
+        <th scope="col">Indice de production</th>
+        <th scope="col">Composant</th>
+        <th scope="col">Modules</th>
+        <th scope="col">Applications</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->view->developpeur as $developpeur) { ?>
+    <tr>
+        <td><?php echo $developpeur['id']; ?></td>
+        <td><?php echo $developpeur['competence']; ?></td>
+        <td><?php echo $developpeur['ip']; ?></td>
+        <td><?php echo $developpeur['composant']; ?></td>
+        <td><?php echo $developpeur['modules']; ?></td>
+        <td><?php echo $developpeur['applications']; ?></td>
+    </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
+</div>

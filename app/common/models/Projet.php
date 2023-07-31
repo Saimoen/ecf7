@@ -347,21 +347,20 @@ class Projet extends \Phalcon\Mvc\Model
         );
         return $this->validate($validator);
     }
-//    const _TYPE_1_PLANIFICATION_ = 1;
-//    const _TYPE_2_REALISATION_ = 2;
-//    const _TYPE_3_SUIVI_ = 3;
-//
-//    public function getTypeLibelle() {
-//        switch ($this->getCompetence()) {
-//            case self::_TYPE__INITIALISATION_ : return 'INITIALISATION';
-//            case self::_TYPE_1_PLANIFICATION_ : return 'PLANIFICATION';
-//            case self::_TYPE_2_REALISATION_ : return 'REALISATION';
-//            case self::_TYPE_3_SUIVI_ : return 'SUIVI';
-//            case self::_TYPE_4_FINALISATION_ : return 'FINALISATION';
-//            default: return 'Statut inconnu';
-//
-//        }
-//    }
+
+    const _TYPE_1_FRONT_ = 0;
+    const _TYPE_2_BACK_ = 1;
+    const _TYPE_3_BDD_ = 2;
+
+    public function getTypeLibelle() {
+        switch ($this->getType()) {
+            case self::_TYPE_1_FRONT_ : return 'FRONT-END';
+            case self::_TYPE_2_BACK_ : return 'BACK-END';
+            case self::_TYPE_3_BDD_ : return 'BASE DE DONNÉES';
+            default: return 'Statut inconnu';
+
+        }
+    }
 
 // Mecanisme de validation
 //    public function validationType() {

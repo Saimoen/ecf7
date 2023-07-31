@@ -1,0 +1,33 @@
+<div class="container">
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID_Développeur</th>
+        <th scope="col">ID_Module</th>
+        <th scope="col">ID_Application</th>
+        <th scope="col">ID_Composant</th>
+        <th scope="col">ID_Chef_De_Projet</th>
+        <th scope="col">Type</th>
+        <th scope="col">ID_Client</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Statut</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->view->projet as $projet) { ?>
+    <tr>
+        <td><?php echo $projet['id_developpeur']; ?></td>
+        <td><?php echo $projet['id_module']; ?></td>
+        <td><?php echo $projet['id_application']; ?></td>
+        <td><?php echo $projet['id_composant']; ?></td>
+        <td><?php echo $projet['id_chef_de_projet']; ?></td>
+        <td><?php echo $projet['type']; ?></td>
+        <td><?php echo $projet['id_client']; ?></td>
+        <td><?php echo $projet['prix']; ?></td>
+        <td><?php echo $projet['statut']; ?></td>
+    </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
+</div>

@@ -1,0 +1,25 @@
+<div class="container">
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Compétence</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Prenom</th>
+        <th scope="col">Prime d'embauche</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->view->collaborateur as $collaborateur) { ?>
+    <tr>
+        <td><?php echo $collaborateur['id']; ?></td>
+        <td><?php echo $collaborateur['nom']; ?></td>
+        <td><?php echo $collaborateur['prenom']; ?></td>
+        <td><?php echo $collaborateur['competence']; ?></td>
+        <td><?php echo $collaborateur['prime']; ?></td>
+    </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
+</div>
