@@ -7,7 +7,22 @@
     </p>
     <div class="collapse" id="collapseExample">
         <div class="card card-body">
-            <form action=""></form>
+            <form action="/ecf7/create/equipe" method="post">
+                <div class="mb-3">
+                    <label for="cdp" class="form-label">Chef de projet</label>
+                    <select class="form-select" name="cdp" aria-label="Default select example">
+                        <option selected disabled>--Sélectionner--</option>
+                        <?php foreach ($this->view->cdp as $cdp) { ?>
+                            <option value="<?php echo $cdp['id'] ?>"><?php echo $cdp['cdp'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="libelle" class="form-label">Libellé</label>
+                    <input type="text" name="libelle" class="form-control" id="libelle" placeholder="--Nom d'équipe--">
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
         </div>
     </div>
     <table class="table table-striped">
@@ -25,18 +40,18 @@
         <td><?php echo $equipe['id']; ?></td>
         <td><?php echo $equipe['cdp']; ?></td>
         <td><?php echo $equipe['libelle']; ?></td>
-        <td>
+        <td class="d-flex justify-content-around">
+            <form action="/ecf7/equipe/editEquipe" method="get">
+                <input type="hidden" name="id" value="<?php echo $equipe['id']; ?>">
+                <button type="submit" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i> Editer</button>
+            </form>
             <form action="/ecf7/delete/equipe" method="get">
                 <input type="hidden" name="id" value="<?php echo $equipe['id']; ?>">
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#supprimer">
-                    <i class="fa-solid fa-trash"></i> Supprimer
-                </button>
-                <button type="submit" class="btn btn-danger">Supprimer</button>
+                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Supprimer</button>
             </form>
         </td>
     </tr>
         <?php } ?>
     </tbody>
 </table>
-
 </div>

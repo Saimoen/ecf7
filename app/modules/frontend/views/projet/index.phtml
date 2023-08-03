@@ -28,7 +28,6 @@
         <thead>
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Chef de projet</th>
             <th scope="col">Type</th>
             <th scope="col">Prix</th>
             <th scope="col">Statut</th>
@@ -39,7 +38,6 @@
         <?php foreach ($this->view->projets as $projet) { ?>
             <tr>
                 <td><?php echo $projet['id']; ?></td>
-                <td><?php echo $projet['cdp']; ?></td>
                 <td><?php echo $projet['type']; ?></td>
                 <td><?php echo $projet['prix']; ?></td>
                 <td><?php echo $projet['statut']; ?></td>

@@ -18,7 +18,6 @@ class ProjetController extends Controller
         foreach (Projet::find() as $projet) {
             $projets[] = [
                 'id' => $projet->getId(),
-                'cdp' => $projet->Chefdeprojet->Collaborateur->getNom(),
                 'type' => $projet->getTypeLibelle(),
                 'prix' => $projet->getPrix(),
                 'statut' => $projet->getStatutLibelle()
