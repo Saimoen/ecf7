@@ -177,7 +177,7 @@ class Collaborateur extends \Phalcon\Mvc\Model
     public function validation() {
         $validator = new Validation();
         $validator->add('niveau_competence',
-            new InclusionIn(
+            new Validation\Validator\InclusionIn(
                 [
                     'template' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
                     'message' => 'Le champ :field doit avoir une valeur comprise entre 0 et 5 caractères',
@@ -202,6 +202,8 @@ class Collaborateur extends \Phalcon\Mvc\Model
         $this->hasMany('id', 'Phalcon\Models\Chefdeprojet', 'id_collaborateur', ['alias' => 'Chefdeprojet']);
         $this->hasMany('id', 'Phalcon\Models\Developpeur', 'id_collaborateur', ['alias' => 'Developpeur']);
     }
+
+
 
     /**
      * Allows to query a set of records that match the specified conditions

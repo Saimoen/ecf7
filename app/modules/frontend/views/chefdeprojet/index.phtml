@@ -11,8 +11,7 @@
         </li>
     </ul>
 
-
-    <h3>Liste des développeurs</h3>
+    <h3>Liste des chefs de projet</h3>
     <p class="d-inline-flex gap-1">
         <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
             Ajouter <i class="fa-solid fa-plus"></i>
@@ -22,33 +21,34 @@
         <div class="card card-body">
             <form action=""></form>
         </div>
-    </div>
-    <table class="table table-striped">
+        </div>
+<table class="table table-striped">
     <thead>
     <tr>
         <th scope="col">ID</th>
-        <th scope="col">Compétences</th>
-        <th scope="col">Indice</th>
-        <th scope="col">Composant</th>
-        <th scope="col">Modules</th>
-        <th scope="col">Applications</th>
+        <th scope="col">Collaborateur</th>
+        <th scope="col">Boost de production</th>
         <th class="text-center">Actions</th>
     </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->view->developpeur as $developpeur) { ?>
+        <?php foreach ($this->view->cdp as $chef) { ?>
     <tr>
-        <td><?php echo $developpeur['id']; ?></td>
-        <td><?php echo $developpeur['competence']; ?></td>
-        <td><?php echo $developpeur['ip']; ?></td>
-        <td><?php echo $developpeur['composant']; ?></td>
-        <td><?php echo $developpeur['modules']; ?></td>
-        <td><?php echo $developpeur['applications']; ?></td>
-        <td class="d-flex justify-content-around">
-            <button class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i> Editer</button>
-            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Supprimer</button>
+        <td><?php echo $chef['id']; ?></td>
+        <td><?php echo $chef['nomCollabo']; ?></td>
+        <td><?php echo $chef['boost']; ?></td>
+        <td>
+            <form action="/ecf7/delete/chefdeprojet" method="get">
+                <input type="hidden" name="id" value="<?php echo $chef['id']; ?>">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#supprimer">
+                    <i class="fa-solid fa-trash"></i> Supprimer
+                </button>
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
         </td>
     </tr>
         <?php } ?>
     </tbody>
 </table>
+
+</div>

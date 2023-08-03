@@ -1,11 +1,23 @@
 <div class="container">
-<table class="table">
+    <h3>Liste des clients</h3>
+    <p class="d-inline-flex gap-1">
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Ajouter <i class="fa-solid fa-plus"></i>
+        </a>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <form action=""></form>
+        </div>
+        </div>
+<table class="table table-striped">
     <thead>
     <tr>
         <th scope="col">ID</th>
         <th scope="col">Raison Sociale</th>
         <th scope="col">RIDET</th>
         <th scope="col">SS2I</th>
+        <th class="text-center">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -14,7 +26,15 @@
         <td><?php echo $client['id']; ?></td>
         <td><?php echo $client['raison_sociale']; ?></td>
         <td><?php echo $client['ridet']; ?></td>
-        <td><?php echo $client['ss2i']; ?></td>
+        <td><?php if ($client['ss2i'] == true) { ?>
+            <input type="checkbox" id="scales" name="scales" checked disabled>
+        <?php } else { ?>
+            <input type="checkbox" id="scales" name="scales" disabled>
+        <?php }  ?></td>
+        <td class="d-flex justify-content-around">
+            <button class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i> Editer</button>
+            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Supprimer</button>
+        </td>
     </tr>
         <?php } ?>
     </tbody>

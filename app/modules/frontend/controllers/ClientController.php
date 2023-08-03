@@ -21,11 +21,18 @@ class ClientController extends Controller
                 'id' => $client->getId(),
                 'raison_sociale' => $client->getRaisonSociale(),
                 'ridet' => $client->getRidet(),
-                'ss2i' => $client->getSs2i(),
+                'ss2i' => $this->isSS2i($client->getSs2i()),
             ];
         }
         $this->view->setVar('client', $clients);
     }
 
+    private function isSS2i($getSs2i) {
+        if($getSs2i == 0) {
+            return false;
+        } elseif($getSs2i == 1) {
+            return true;
+        }
+}
 }
 

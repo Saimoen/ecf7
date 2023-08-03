@@ -1,6 +1,10 @@
 <?php
 
-class Chefdeprojet extends \Phalcon\Mvc\Model
+namespace Phalcon\Models; // Adjust the namespace according to your project structure
+
+use Phalcon\Mvc\Model;
+
+class Chefdeprojet extends Model
 {
 
     /**
@@ -95,6 +99,8 @@ class Chefdeprojet extends \Phalcon\Mvc\Model
         return $this->id_collaborateur;
     }
 
+
+
     /**
      * Initialize method for model.
      */
@@ -102,8 +108,8 @@ class Chefdeprojet extends \Phalcon\Mvc\Model
     {
         $this->setSchema("webappsaler");
         $this->setSource("chefdeprojet");
-        $this->hasMany('id', 'Equipe', 'idChef', ['alias' => 'Equipe']);
-        $this->belongsTo('id_collaborateur', '\Collaborateur', 'id', ['alias' => 'Collaborateur']);
+        $this->hasMany('id', 'Phalcon\Models\Equipe', 'idChef', ['alias' => 'Equipe']);
+        $this->belongsTo('id_collaborateur', 'Phalcon\Models\Collaborateur', 'id', ['alias' => 'Collaborateur']);
     }
 
     /**

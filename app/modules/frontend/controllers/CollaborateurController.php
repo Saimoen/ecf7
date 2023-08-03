@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace Phalcon\modules\frontend\controllers;
 
 use Phalcon\Models\Collaborateur;
-use Phalcon\Models\Equipe;
-use Phalcon\Models\Projet;
 use Phalcon\Mvc\Controller;
 
 class CollaborateurController extends Controller
@@ -24,6 +22,10 @@ class CollaborateurController extends Controller
             ];
         }
         $this->view->setVar('collaborateur', $collaborateurs);
+    }
+
+    public function createAction() {
+        echo 'Test !';
     }
 
 }

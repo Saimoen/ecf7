@@ -28,6 +28,7 @@ class Equipe extends \Phalcon\Mvc\Model
      */
     protected $libelle;
 
+    protected $name;
     /**
      * Method to set the value of field idChef
      *
@@ -67,6 +68,13 @@ class Equipe extends \Phalcon\Mvc\Model
         return $this;
     }
 
+    public function setName($name)
+    {
+        $this->libelle = $name;
+
+        return $this;
+    }
+
     /**
      * Returns the value of field idChef
      *
@@ -96,6 +104,13 @@ class Equipe extends \Phalcon\Mvc\Model
     {
         return $this->libelle;
     }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+
 
     /**
      * Initialize method for model.

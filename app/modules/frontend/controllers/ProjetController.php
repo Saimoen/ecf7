@@ -11,23 +11,20 @@ use Phalcon\Mvc\Controller;
 class ProjetController extends Controller
 {
 
+
     public function indexAction()
     {
         $projets = [];
         foreach (Projet::find() as $projet) {
             $projets[] = [
-                'id_developpeur' => $projet->getIdDeveloppeur(),
-                'id_module' => $projet->getIdModule(),
-                'id_application' => $projet->getIdModule(),
-                'id_composant' => $projet->getIdComposant(),
-                'id_chef_de_projet' => $projet->getIdChefDeProjet(),
-                'type' => $projet->getType(),
-                'id_client' => $projet->getIdClient(),
+                'id' => $projet->getId(),
+                'cdp' => $projet->Chefdeprojet->Collaborateur->getNom(),
+                'type' => $projet->getTypeLibelle(),
                 'prix' => $projet->getPrix(),
-                'statut' => $projet->getStatut(),
+                'statut' => $projet->getStatutLibelle()
             ];
         }
-        $this->view->setVar('projet', $projets);
+        $this->view->setVar('projets', $projets);
     }
 
 }

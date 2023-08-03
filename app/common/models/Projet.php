@@ -309,6 +309,10 @@ class Projet extends \Phalcon\Mvc\Model
         return $this->statut;
     }
 
+    public function getNom() {
+        return $this->name;
+    }
+
     const _STATUT_0_INITIALISATION_ = 0;
     const _STATUT_1_PLANIFICATION_ = 1;
     const _STATUT_2_REALISATION_ = 2;
@@ -391,6 +395,7 @@ class Projet extends \Phalcon\Mvc\Model
     {
         $this->setSchema("webappsaler");
         $this->setSource("projet");
+        $this->belongsTo('id_chef_de_projet', 'Phalcon\Models\Chefdeprojet', 'id', ['alias' => 'Chefdeprojet']);
     }
 
     /**

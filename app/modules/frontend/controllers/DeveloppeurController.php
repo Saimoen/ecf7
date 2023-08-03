@@ -15,7 +15,7 @@ class DeveloppeurController extends Controller
         foreach (Developpeur::find() as $developpeur) {
             $developpeurs[] = [
                 'id' => $developpeur->getId(),
-                'competence' => $developpeur->getCompetence(),
+                'competence' => $developpeur->getCompetenceLibelle(),
                 'ip' => $developpeur->getIndiceProduction(),
                 'composant' => $developpeur->getComposants(),
                 'modules' => $developpeur->getModules(),

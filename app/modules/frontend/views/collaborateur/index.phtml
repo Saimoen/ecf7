@@ -1,5 +1,51 @@
 <div class="container">
-<table class="table">
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="collaborateur">Collaborateurs</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="developpeur">Développeurs</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="chefdeprojet">Chef de projet</a>
+        </li>
+    </ul>
+
+
+    <h3>Liste des collaborateurs</h3>
+    <p class="d-inline-flex gap-1">
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Ajouter <i class="fa-solid fa-plus"></i>
+        </a>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <form action="/ecf7/create/collaborateur" method="post">
+                <div class="mb-3">
+                    <label for="competence">Compétence</label>
+                    <select class="form-select" name="niveau_competence" aria-label="Default select example">
+                        <option value="1">Stagiaire</option>
+                        <option value="2">Junior</option>
+                        <option value="3">Sénior</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="Nom" class="form-label">Nom</label>
+                    <input type="text" name="nom" class="form-control" id="nom">
+                </div>
+                <div class="mb-3">
+                    <label for="Prenom" class="form-label">Prenom</label>
+                    <input type="text" name="prenom" class="form-control" id="prenom">
+                </div>
+                <div class="mb-3">
+                    <label for="prime">Prime</label>
+                    <input type="number" class="form-control" name="prime" min="0" max="100" oninput="limitInput(this)">
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    </div>
+    <table class="table table-striped py-3">
     <thead>
     <tr>
         <th scope="col">ID</th>
@@ -7,19 +53,74 @@
         <th scope="col">Nom</th>
         <th scope="col">Prenom</th>
         <th scope="col">Prime d'embauche</th>
+        <th class="text-center">Actions</th>
     </tr>
     </thead>
     <tbody>
         <?php foreach ($this->view->collaborateur as $collaborateur) { ?>
     <tr>
         <td><?php echo $collaborateur['id']; ?></td>
+        <?php if ($collaborateur['competence'] == 1) { ?>
+            <td>Stagiaire</td>
+        <?php } else if($collaborateur['competence'] == 2) { ?>
+            <td>Junior</td>
+        <?php } else if ($collaborateur['competence'] == 3) {?>
+            <td>Senior</td>
+        <?php } ?>
         <td><?php echo $collaborateur['nom']; ?></td>
         <td><?php echo $collaborateur['prenom']; ?></td>
-        <td><?php echo $collaborateur['competence']; ?></td>
         <td><?php echo $collaborateur['prime']; ?></td>
+        <td class="d-flex justify-content-around">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editer">
+                <i class="fa-solid fa-pen-to-square"></i> Editer
+            </button>
+        </td>
     </tr>
+            <div class="modal fade" id="editer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="supprimer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Supprimer le collaborateur ?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="/ecf7/delete/collaborateur" method="post">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-danger">Confirmer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <?php } ?>
     </tbody>
 </table>
 
 </div>
+
+<script>
+    function limitInput(input) {
+        if (input.value > input.max) {
+            input.value = input.max;
+        } else if (input.value < input.min) {
+            input.value = input.min;
+        }
+    }
+</script>
