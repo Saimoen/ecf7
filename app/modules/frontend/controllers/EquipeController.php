@@ -5,6 +5,7 @@ namespace Phalcon\modules\frontend\controllers;
 
 use Phalcon\Models\Equipe;
 use Phalcon\Models\Chefdeprojet;
+use Phalcon\Models\EquipeMembers;
 use Phalcon\Mvc\Controller;
 
 class EquipeController extends Controller
@@ -20,6 +21,14 @@ class EquipeController extends Controller
                 'libelle' => $equipe->getLibelle()
             ];
         }
+        $membres = [];
+        foreach (EquipeMembers::find() as $membre) {
+            $membres[] = [
+                'id' => $membre->getId(),
+                'developpeur' => $membre->Developpeur->Collaborateur->getNom(),
+                'equipe' => $membre->Equipe->getLibelle(),
+            ];
+        }
         $cdp = [];
         foreach (Chefdeprojet::find() as $chef) {
             $cdp[] = [
@@ -28,20 +37,12 @@ class EquipeController extends Controller
             ];
         }
         $this->view->setVar('equipe', $equipes);
+        $this->view->setVar('membre', $membres);
         $this->view->setVar('cdp', $cdp);
     }
 
     public function editEquipeAction()
     {
-        $equipes = [];
-        foreach (Equipe::find() as $equipe) {
-            $equipes[] = [
-                'id' => $equipe->getId(),
-                'id_chef' => $equipe->getIdChef(),
-                'cdp' => $equipe->Chefdeprojet->Collaborateur->getNom(),
-                'libelle' => $equipe->getLibelle()
-            ];
-        }
         $cdp = [];
         foreach (Chefdeprojet::find() as $chef) {
             $cdp[] = [
@@ -105,7 +106,7 @@ class EquipeController extends Controller
         echo $idEquipe;
     }
 
-    public function saveEquipeAction()
+    private function saveEquipeAction()
     {
         if ($this->request->isPost()) {
             $idEquipe = $this->request->getPost('id');
@@ -148,6 +149,59 @@ class EquipeController extends Controller
             return $this->response->redirect('/ecf7/');
         }
     }
+
+    public function showAction()
+    {
+        // Get the team ID from the URL query parameter
+        $idEquipe = $this->request->getQuery('id');
+
+        // Check if the ID is valid and non-empty
+        if (!empty($idEquipe) && is_numeric($idEquipe)) {
+            // Find the team by its ID in the database
+            $equipe = Equipe::findFirst([
+                'conditions' => 'id = :id:',
+                'bind' => ['id' => $idEquipe]
+            ]);
+
+            $membre = EquipeMembers::findFirst([
+                'conditions' => 'id = :id:',
+                'bind' => ['id' => $idEquipe]
+            ]);
+
+            // Check if the team exists
+            if ($equipe) {
+                // Display the team details
+                $detailEquipe = '
+                <h3>Détails de l\'équipe : ' . $equipe->getLibelle() . '</h3>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row">ID</th>
+                            <td>' . $membre->Developpeur->Collaborateur->getNom() . '</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Chef de projet</th>
+                            <td>' . $membre->Equipe->getLibelle() . '</td>
+                        </tr>
+                    </tbody>
+                </table>';
+
+                // Echo the team details
+
+            } else {
+                // Team with the specified ID does not exist
+                $this->flash->error('Équipe introuvable.');
+            }
+        } else {
+            // Invalid or empty team ID
+            $this->flash->error('ID d\'équipe invalide.');
+        }
+
+        // Redirect the user to the list of teams or another page
+        echo $detailEquipe;
+    }
+
+
 
 
 

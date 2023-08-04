@@ -105,7 +105,7 @@ class EquipeMembers extends \Phalcon\Mvc\Model
         $this->setSchema("webappsaler");
         $this->setSource("equipe_members");
         $this->belongsTo('id_developpeur', 'Phalcon\Models\Developpeur', 'id', ['alias' => 'Developpeur']);
-        $this->belongsTo('id', 'Phalcon\Models\Equipe', 'idChef', ['alias' => 'Equipe']);
+        $this->belongsTo('id_equipe', 'Phalcon\Models\Equipe', 'id', ['alias' => 'Equipe']);
     }
 
     /**

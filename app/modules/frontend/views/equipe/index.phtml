@@ -21,6 +21,13 @@
                     <label for="libelle" class="form-label">Libellé</label>
                     <input type="text" name="libelle" class="form-control" id="libelle" placeholder="--Nom d'équipe--">
                 </div>
+                <div class="mb-3">
+                    <label for="membre">Ajouter des membres</label>
+                    <?php foreach ($this->view->membre as $membre) { ?>
+                    <input type="checkbox" name="membre" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio1"><?= $membre['developpeur'] ?></label>
+                    <?php } ?>
+                </div>
                 <button type="submit" class="btn btn-primary">Envoyer</button>
             </form>
         </div>
@@ -35,12 +42,16 @@
     </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->view->equipe as $equipe) { ?>
+    <?php foreach ($this->view->equipe as $equipe) { ?>
     <tr>
         <td><?php echo $equipe['id']; ?></td>
         <td><?php echo $equipe['cdp']; ?></td>
         <td><?php echo $equipe['libelle']; ?></td>
         <td class="d-flex justify-content-around">
+            <form action="/ecf7/equipe/show" method="get">
+                <input type="hidden" name="id" value="<?php echo $equipe['id']; ?>">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i> Détails</button>
+            </form>
             <form action="/ecf7/equipe/editEquipe" method="get">
                 <input type="hidden" name="id" value="<?php echo $equipe['id']; ?>">
                 <button type="submit" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i> Editer</button>
