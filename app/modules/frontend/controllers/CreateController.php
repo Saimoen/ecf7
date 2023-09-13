@@ -46,6 +46,8 @@ class CreateController extends Controller
         if($this->request->isPost()) {
             $cdp = $this->request->getPost('cdp');
             $libelle = $this->request->getPost('libelle');
+            $membre = $this->request->getPost('membre');
+            var_dump($membre);
             $newEquipe = (new Equipe())
             ->setIdChef($cdp)
             ->setLibelle($libelle);

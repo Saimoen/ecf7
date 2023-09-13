@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Phalcon\modules\frontend\controllers;
 
+use Phalcon\Models\Developpeur;
 use Phalcon\Models\Equipe;
 use Phalcon\Models\Chefdeprojet;
 use Phalcon\Models\EquipeMembers;
@@ -17,17 +18,18 @@ class EquipeController extends Controller
             $equipes[] = [
                 'id' => $equipe->getId(),
                 'id_chef' => $equipe->getIdChef(),
-                'cdp' => $equipe->Chefdeprojet->Collaborateur->getNom(),
+                'cdp' => ($equipe->Chefdeprojet && $equipe->Chefdeprojet->Collaborateur) ? $equipe->Chefdeprojet->Collaborateur->getNom() : '',
                 'libelle' => $equipe->getLibelle()
             ];
         }
         $membres = [];
-        foreach (EquipeMembers::find() as $membre) {
-            $membres[] = [
-                'id' => $membre->getId(),
-                'developpeur' => $membre->Developpeur->Collaborateur->getNom(),
-                'equipe' => $membre->Equipe->getLibelle(),
-            ];
+        foreach (Developpeur::find() as $membre) {
+            if ($membre) {
+                $membres[] = [
+                    'id' => $membre->getId(),
+                    'developpeur' => $membre->Collaborateur->getNom(),
+                ];
+            }
         }
         $cdp = [];
         foreach (Chefdeprojet::find() as $chef) {
@@ -169,19 +171,23 @@ class EquipeController extends Controller
             ]);
 
             // Check if the team exists
-            if ($equipe) {
+            if ($equipe && $membre) {
                 // Display the team details
                 $detailEquipe = '
                 <h3>Détails de l\'équipe : ' . $equipe->getLibelle() . '</h3>
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <th scope="row">ID</th>
-                            <td>' . $membre->Developpeur->Collaborateur->getNom() . '</td>
+                            <th scope="row">Libelle</th>
+                            <td>' . $membre->Equipe->getLibelle() . '</td>
                         </tr>
                         <tr>
                             <th scope="row">Chef de projet</th>
-                            <td>' . $membre->Equipe->getLibelle() . '</td>
+                               <td>' . $membre->Developpeur->Collaborateur->getNom() . '</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Membres de l\'équipe</th>
+                               <td>' . $membre->Developpeur->Collaborateur->getNom()  . '</td>
                         </tr>
                     </tbody>
                 </table>';
@@ -190,7 +196,7 @@ class EquipeController extends Controller
 
             } else {
                 // Team with the specified ID does not exist
-                $this->flash->error('Équipe introuvable.');
+                var_dump($membre);
             }
         } else {
             // Invalid or empty team ID
