@@ -165,38 +165,42 @@ class EquipeController extends Controller
                 'bind' => ['id' => $idEquipe]
             ]);
 
-            $membre = EquipeMembers::findFirst([
-                'conditions' => 'id = :id:',
-                'bind' => ['id' => $idEquipe]
-            ]);
-
             // Check if the team exists
-            if ($equipe && $membre) {
+            if ($equipe) {
+                // Retrieve the list of team members associated with this team
+                $membres = EquipeMembers::find([
+                    'conditions' => 'id_equipe = :id_equipe:',
+                    'bind' => ['id_equipe' => $idEquipe]
+                ]);
+
+                // Retrieve the chef de projet from the team members
+                $chefDeProjet = null;
+                foreach ($membres as $membre) {
+                    if ($membre->Developpeur->Collaborateur->getId() === $equipe->getIdChef()) {
+                        $chefDeProjet = $membre->Developpeur->Collaborateur->getNom();
+                        break;
+                    }
+                }
+
                 // Display the team details
-                $detailEquipe = '
-                <h3>Détails de l\'équipe : ' . $equipe->getLibelle() . '</h3>
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <th scope="row">Libelle</th>
-                            <td>' . $membre->Equipe->getLibelle() . '</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Chef de projet</th>
-                               <td>' . $membre->Developpeur->Collaborateur->getNom() . '</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Membres de l\'équipe</th>
-                               <td>' . $membre->Developpeur->Collaborateur->getNom()  . '</td>
-                        </tr>
-                    </tbody>
-                </table>';
+                $detailEquipe = '<h3>Détails de l\'équipe : ' . $equipe->getLibelle() . '</h3>';
+                $detailEquipe .= '<table class="table table-striped"><tbody>';
+                $detailEquipe .= '<tr><th scope="row">Libelle</th><td>' . $equipe->getLibelle() . '</td></tr>';
+                $detailEquipe .= '<tr><th scope="row">Chef de projet</th><td>' . $chefDeProjet . '</td></tr>';
+                $detailEquipe .= '<tr><th scope="row">Membres de l\'équipe</th><td>';
+
+                // Loop through the members and display their names
+                foreach ($membres as $membre) {
+                    $detailEquipe .= $membre->Developpeur->Collaborateur->getNom() . '<br>';
+                }
+
+                $detailEquipe .= '</td></tr></tbody></table>';
 
                 // Echo the team details
-
+                echo $detailEquipe;
             } else {
                 // Team with the specified ID does not exist
-                var_dump($membre);
+                $this->flash->error('L\'équipe avec cet ID n\'existe pas.');
             }
         } else {
             // Invalid or empty team ID
@@ -204,8 +208,11 @@ class EquipeController extends Controller
         }
 
         // Redirect the user to the list of teams or another page
-        echo $detailEquipe;
+        // ...
     }
+
+
+
 
 
 

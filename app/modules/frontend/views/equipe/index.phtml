@@ -24,7 +24,7 @@
                 <div class="mb-3">
                     <label for="membre">Ajouter des membres</label>
                     <?php foreach ($this->view->membre as $m) { ?>
-                        <label class="btn btn-outline-primary" for="btnradio1"><?= var_dump($m); ?></label>
+                        <label class="btn btn-outline-primary" for="btnradio1"><?= $m['developpeur']; ?></label>
                     <input type="checkbox" value="<?php echo $m['id'] ?>" name="membre" autocomplete="off">
                     <?php } ?>
                 </div>
