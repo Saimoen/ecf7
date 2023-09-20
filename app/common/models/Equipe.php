@@ -121,6 +121,14 @@ class Equipe extends \Phalcon\Mvc\Model
         $this->setSource("equipe");
         $this->hasMany('idChef', 'Phalcon\Models\EquipeMembers', 'id', ['alias' => 'EquipeMembers']);
         $this->belongsTo('idChef', 'Phalcon\Models\Chefdeprojet', 'id', ['alias' => 'Chefdeprojet']);
+        $this->hasManyToMany(
+            'id',
+            'EquipeMembers',
+            'id_equipe', 'id_developpeur',
+            'Developpeur',
+            'id',
+            ['alias' => 'Developpeur']
+        );
     }
 
     /**

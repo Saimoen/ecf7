@@ -53,6 +53,7 @@ class EquipeMembers extends \Phalcon\Mvc\Model
         return $this;
     }
 
+
     /**
      * Method to set the value of field id_developpeur
      *
@@ -112,6 +113,7 @@ class EquipeMembers extends \Phalcon\Mvc\Model
                 'alias' => 'Equipe',
             ]
         );
+
     }
 
     /**

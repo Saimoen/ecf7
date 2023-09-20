@@ -49,11 +49,21 @@ class EquipeController extends Controller
         foreach (Chefdeprojet::find() as $chef) {
             $cdp[] = [
                 'id' => $chef->getId(),
-               'cdp' => $chef->Collaborateur->getNom()
+                'cdp' => $chef->Collaborateur->getNom()
             ];
         }
 
         $idEquipe = $this->request->getQuery('id');
+
+        $equipeMembres = EquipeMembers::find([
+            'conditions' => 'id_equipe = :id_equipe:',
+            'bind' => ['id_equipe' => $idEquipe]
+        ]);
+
+        $selectedMembres = [];
+        foreach ($equipeMembres as $equipeMembre) {
+            $selectedMembres[] = $equipeMembre->getIdDeveloppeur();
+        }
 
         // Vérifier si l'ID est valide et non vide
         if (!empty($idEquipe) && is_numeric($idEquipe)) {
@@ -67,29 +77,51 @@ class EquipeController extends Controller
                 $selectedChefId = $equipe->getIdChef();
                 $selectedLibelle = $equipe->getLibelle();
                 $formEditEquipe = '
-        <h3>Modifier l\'équipe sélectionnée :</h3>
-        <form action="/ecf7/equipe/saveEquipe" method="post">
-        <input type="hidden" name="id" value="' . $idEquipe . '">
-            <div class="mb-3">
-                <label for="cdp" class="form-label">Chef de projet</label>
-                <select class="form-select" name="cdp" aria-label="Default select example">
-                    ';
+    <h3>Modifier l\'équipe sélectionnée :</h3>
+    <form action="/ecf7/equipe/saveEquipe" method="post">
+    <input type="hidden" name="id" value="' . $idEquipe . '">
+        <div class="mb-3">
+            <label for="cdp" class="form-label">Chef de projet</label>
+            <select class="form-select" name="cdp" aria-label="Default select example">
+                ';
                 // Boucle pour afficher les options du select avec les valeurs du tableau $cdp
                 foreach ($cdp as $chef) {
                     $selected = ($chef['id'] === $selectedChefId) ? 'selected' : '';
                     $formEditEquipe .= '
-                        <option value="' . $chef['id'] . '" ' . $selected . '>' . $chef['cdp'] . '</option>';
+                    <option value="' . $chef['id'] . '" ' . $selected . '>' . $chef['cdp'] . '</option>';
                 }
                 $formEditEquipe .= '
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="libelle" class="form-label">Libellé</label>
-                <input type="text" name="libelle" class="form-control" id="libelle" placeholder="--Nom d\'équipe--" value="' . $selectedLibelle . '">
-            </div>
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-        </form>
-    ';   } else {
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="libelle" class="form-label">Libellé</label>
+            <input type="text" name="libelle" class="form-control" id="libelle" placeholder="--Nom d\'équipe--" value="' . $selectedLibelle . '">
+        </div>
+        <div class="mb-3">
+            <label for="membres" class="form-label">Membres de l\'équipe</label>
+            <input type="checkbox" name="membres[]" class="form-select">
+                ';
+                // Boucle pour afficher les options du select avec les valeurs du tableau $selectedMembres
+                foreach ($selectedMembres as $membreId) {
+                    $selected = (in_array($membreId, $selectedMembres)) ? 'selected' : '';
+                    // Vous devez récupérer les données du membre depuis la base de données
+                    // et afficher son nom et prénom ici.
+                    $membre = Developpeur::findFirst([
+                        'conditions' => 'id = :id:',
+                        'bind' => ['id' => $membreId]
+                    ]);
+                    if ($membre) {
+                        $formEditEquipe .= '
+                        <option value="' . $membre->Collaborateur->getId() . '" ' . $selected . '>' . $membre->Collaborateur->getNom() . ' ' . $membre->Collaborateur->getPrenom() . '</option>';
+                    }
+                }
+                $formEditEquipe .= '
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+    ';
+            } else {
                 // L'équipe avec l'ID spécifié n'existe pas
                 // Vous pouvez afficher un message d'erreur ou effectuer d'autres actions en cas d'équipe introuvable
                 echo 'Équipe introuvable.';
@@ -108,12 +140,14 @@ class EquipeController extends Controller
         echo $idEquipe;
     }
 
-    private function saveEquipeAction()
+
+    public function saveEquipeAction()
     {
         if ($this->request->isPost()) {
             $idEquipe = $this->request->getPost('id');
             $idChef = $this->request->getPost('cdp');
             $libelle = $this->request->getPost('libelle');
+            $membres = $this->request->getPost('membres');
 
             // Vérifier que l'ID de l'équipe est valide et non vide
             if (!empty($idEquipe) && is_numeric($idEquipe)) {
@@ -173,21 +207,13 @@ class EquipeController extends Controller
                     'bind' => ['id_equipe' => $idEquipe]
                 ]);
 
-                // Retrieve the chef de projet from the team members
-                $chefDeProjet = null;
-                foreach ($membres as $membre) {
-                    if ($membre->Developpeur->Collaborateur->getId() === $equipe->getIdChef()) {
-                        $chefDeProjet = $membre->Developpeur->Collaborateur->getNom();
-                        break;
-                    }
-                }
-
                 // Display the team details
                 $detailEquipe = '<h3>Détails de l\'équipe : ' . $equipe->getLibelle() . '</h3>';
                 $detailEquipe .= '<table class="table table-striped"><tbody>';
                 $detailEquipe .= '<tr><th scope="row">Libelle</th><td>' . $equipe->getLibelle() . '</td></tr>';
-                $detailEquipe .= '<tr><th scope="row">Chef de projet</th><td>' . $chefDeProjet . '</td></tr>';
+                $detailEquipe .= '<tr><th scope="row">Chef de projet</th><td>' . $equipe->Chefdeprojet->Collaborateur->getNom() . '</td></tr>';
                 $detailEquipe .= '<tr><th scope="row">Membres de l\'équipe</th><td>';
+
 
                 // Loop through the members and display their names
                 foreach ($membres as $membre) {

@@ -54,17 +54,17 @@ class CreateController extends Controller
                 ->setIdChef($cdp)
                 ->setLibelle($libelle);
 
-            // Essayez de sauvegarder l'équipe
-            if ($newEquipe->save()) {
+            $newEquipe->save();
                 // L'équipe a été sauvegardée avec succès
                 // Maintenant, associez les membres à l'équipe
                 foreach ($membres as $membreId) {
                     // Créez une nouvelle relation entre l'équipe et le membre
                     $equipeMembre = new EquipeMembers();
                     $equipeMembre->setIdEquipe($newEquipe->getId()); // Utilisez la méthode appropriée pour obtenir l'ID de l'équipe
-                    $equipeMembre->setIdMembre($membreId);
+                    $equipeMembre->setIdDeveloppeur($membreId);
                     $equipeMembre->save();
                 }
+
 
                 // Redirigez l'utilisateur vers une autre page ou affichez un message de succès
                 return $this->response->redirect('/ecf7/equipe');
@@ -76,7 +76,6 @@ class CreateController extends Controller
                 }
             }
         }
-    }
 
 }
 
