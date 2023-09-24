@@ -22,9 +22,9 @@
                     <input type="text" name="libelle" class="form-control" id="libelle" placeholder="--Nom d'équipe--">
                 </div>
                 <div class="mb-3">
-                    <label for="membre">Ajouter des membres</label>
+                    <label for="membre">Ajouter des membres :</label><br>
                     <?php foreach ($this->view->membre as $m) { ?>
-                        <label class="btn btn-outline-primary" for="btnradio1"><?= $m['developpeur']; ?></label>
+                        <br> <label for="btnradio1"><?= $m['developpeur']; ?></label>
                     <input type="checkbox" value="<?php echo $m['id'] ?>" name="membre[]" autocomplete="off">
                     <?php } ?>
                 </div>

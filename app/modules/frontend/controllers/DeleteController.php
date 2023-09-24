@@ -32,6 +32,9 @@ class DeleteController extends Controller
 
                 // Vérifier si l'équipe existe
                 if ($equipe) {
+                    // Supprimer toutes les références vers l'équipe
+                    $this->db->query('DELETE FROM equipe_members WHERE id_equipe = :id_equipe;', ['id_equipe' => $idEquipe]);
+
                     // Supprimer l'equipe de la base de données
                     if ($equipe->delete()) {
                         // L'equipe a été supprimée avec succès
@@ -56,6 +59,7 @@ class DeleteController extends Controller
             return $this->response->redirect('/ecf7/equipe');
         }
     }
+
 
     public function chefdeprojetAction()
     {
