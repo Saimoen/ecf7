@@ -118,6 +118,7 @@ class EquipeController extends Controller
                 $formEditEquipe .= '
             </select>
         </div>
+        
         <button type="submit" class="btn btn-primary">Enregistrer</button>
     </form>
     ';
